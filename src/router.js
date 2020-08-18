@@ -46,7 +46,33 @@ export const router = new Router({
             name: 'RegistrationSuccess',
             // lazy-loaded
             component: () => import('./views/RegistrationSuccess.vue')
-        }
+        },
+        {
+            path: '/newBill',
+            name: 'createNewBill',
+            // lazy-loaded
+            component: () => import('./views/createNewBill.vue')
+        },
+        {
+            path: '/tips',
+            name: 'tips',
+            // lazy-loaded
+            component: () => import('./views/tips.vue')
+        },
+        {
+            
+            path: '/billList',
+            name: 'billList',
+            // lazy-loaded
+            component: () => import('./views/billList.vue')
+        },
+        {
+
+            path: '/allBill',
+            name: 'allBills',
+            // lazy-loaded
+            component: () => import('./views/allBill.vue')
+        },
     ]
 });
 

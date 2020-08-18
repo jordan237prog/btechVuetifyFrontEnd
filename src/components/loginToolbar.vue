@@ -1,19 +1,17 @@
 <template>
-  <nav  
-      > 
-
+  <nav> 
     <v-app-bar
-      height="125"
+      height="90"
       dense
       dark
       flat
-      src="../assets\bg1.png"
+      src="https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"
     >
       <v-app-bar-nav-icon 
         v-if="currentUser" 
-        @click.stop="drawer = !drawer">
+        @click.stop="permanent = !permanent">
       
-      </v-app-bar-nav-icon> <v-icon>mdi-dehaze</v-icon> <span v-if="currentUser" class="menu" >MENU</span>
+      </v-app-bar-nav-icon> <v-icon>mdi-dehaze</v-icon> <span v-if="currentUser" class="menu" ></span>
 
       <img class="img" height="50" src="../assets\kmerfreelance.png">
 
@@ -41,12 +39,18 @@
 
     <!-- ===================side-bar==============================================-bar -->
 
-    <v-navigation-drawer app 
-        v-model="drawer" 
+    <v-card>
+
+        <v-navigation-drawer app
+        v-if="currentUser"
+        v-model="drawer"
+        :mini-variant.sync="mini"
         :color="color"
-        :right="right"
-        temporary
-        absolute
+        left
+        fixed
+        :permanent = permanent
+        
+        src="https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"
         dark
       >
         <v-list
@@ -54,15 +58,32 @@
           nav
           class="py-0"
         >
-          <router-link to="/profile" class="username" v-if="currentUser"  > 
-            <v-list-item two-line link >
+
+        <v-list-item three-line px-2> 
            
-              <avatar v-if="currentUser"
+          <img class="img" height="50" src="../assets\kmerfreelance.png">
+              
+          <v-btn
+          icon
+          @click.stop="mini = !mini"
+          
+          
+          >
+            <v-icon>mdi-chevron-left</v-icon>
+        </v-btn>
+              
+        </v-list-item>
+
+        <v-divider></v-divider>
+        
+        <router-link to="/profile" class="username" v-if="currentUser"> 
+            <v-list-item link>
+           
+              <avatar v-if="currentUser" style="withd:20px; height: 30px; font-size : 14px" 
               :username="currentUser.username"
               background-color="#FB236A" 
               color="#fff" 
-              margin-right = "15px" 
-              
+              margin-right = "10px" 
               >  
               </avatar> 
               
@@ -75,7 +96,7 @@
              </v-list-item>
          </router-link> 
 
-          <v-divider></v-divider>
+         
 
 <!-- ========================================================================= -->
           <v-list-item
@@ -89,12 +110,12 @@
             <v-list-item-content >
               
               <div  v-if="showLanceBoard">
-                  <router-link to="/lance" class="username"><v-toolbar-title> <span class="username" >LanceBoard</span> </v-toolbar-title></router-link>
+                  <router-link to="/lance" class="username"><v-toolbar-title> <span class="username" >Lance Board</span> </v-toolbar-title></router-link>
               </div>
               
-              <li v-if="showEnterpriseBoard">
-                <router-link to="/enterprise" class="username"> <span class="username" > EnterpriseBoard </span></router-link>
-              </li>
+              <div v-if="showEnterpriseBoard">
+                <router-link to="/enterprise" class="username"><v-toolbar-title><span class="username">Enterprise Board</span></v-toolbar-title></router-link>
+              </div>
           
             </v-list-item-content>
           </v-list-item>  
@@ -104,6 +125,7 @@
             v-for="item in items"
             :key="item.title"
             link
+            router :to="item.route"
           >
 
             <!-- ============================================================================== -->
@@ -118,12 +140,12 @@
           </v-list-item>
         </v-list>
 
-        <template v-slot:append>
+        <template v-slot:append> 
           <v-row justify="center">
               <v-dialog v-model="dialog" persistent max-width="320">
                 <template v-slot:activator="{ on, attrs }">
                     <v-btn
-                      block style="background-color:#FB236A;"
+                      block style="background-color:#FB236A; font-size: 12px;"
                       dark
                       v-bind="attrs"
                       v-on="on"
@@ -145,6 +167,13 @@
       </template>
 
       </v-navigation-drawer>
+
+    </v-card>
+
+
+
+
+      
 
     <!-- ======================================side bar ends here============================================ -->
 
@@ -170,9 +199,13 @@ export default {
       return{
         dialog: false,
         drawer: false,
+        mini: true, 
         items: [
-          { title: 'Photos', icon: 'mdi-image' },
-          { title: 'About', icon: 'mdi-help-box' },
+          { title: 'Bills', icon: 'mdi-card-text', route: '/allBill'},
+          { title: 'New Bill', icon: 'mdi-card-plus', route: '/newBill'},
+          { title: 'List of All Bills', icon: 'mdi-badge-account-horizontal', route:'/billList'},
+          { title: 'Tips', icon: 'mdi-arrow-right-drop-circle', route: '/tips' },
+          { title: 'About', icon: 'mdi-help-box', route: '/about' },
         ],
         color: '#10195D',
         colors: [  
@@ -183,7 +216,6 @@ export default {
           'teal',
           '#10195D'
         ],
-        right: false,
         permanent: false,
       }
     },
@@ -219,11 +251,12 @@ export default {
 
 <style>
    .img{
-     margin-left:45px
+     margin-left:35px
    }
    .icon{
      margin-left:25px;
      margin-bottom: 10px;
+     
    }
    .username{
      color: white;
