@@ -195,7 +195,7 @@
                         @click="removeLine(index)"
                         x-large
                         >
-                            <v-icon dark>mdi-minus</v-icon>
+                            <v-icon dark>mdi-delete</v-icon>
                         </v-avatar>
 
                         
