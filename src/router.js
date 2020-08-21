@@ -73,6 +73,13 @@ export const router = new Router({
             // lazy-loaded
             component: () => import('./views/allBill.vue')
         },
+        {
+
+            path: '/pdf',
+            name: 'pdf',
+            // lazy-loaded
+            component: () => import('./views/pdf.vue')
+        },
     ]
 });
 

@@ -37,8 +37,6 @@
               color="primary"
               dark
               class="mb-2"
-              v-bind="attrs"
-              v-on="on"
               >New Bill
               </v-btn>
             </router-link>
@@ -47,6 +45,12 @@
             
           </v-toolbar>
         </template>
+
+        <!-- ======================================================================= -->
+
+        
+
+        <!-- ======================================================================== -->
 
         <template v-slot:[`item.actions`]="{ item }" > 
          
@@ -58,15 +62,42 @@
             <v-icon  small class="mdi-light">mdi-pencil</v-icon> 
           </v-avatar> 
 
-          
-
           <v-avatar 
-          color="error"
-          @click="deleteItem(item)"
+          class="avatar"
+          color="warning"
+          @click="editItem(item)"
           size="30" 
           >
-            <v-icon  small class="mdi-light">mdi-delete</v-icon> 
-          </v-avatar>
+            <v-icon  small class="mdi-light">
+              <!-- mdi-file-pdf -->
+              mdi-file-pdf-box
+              </v-icon> 
+          </v-avatar>           
+
+          
+
+          <v-dialog v-model="dialog" persistent max-width="320">
+                <template v-slot:activator="{ on, attrs }">
+                    <v-avatar 
+                    color="error"
+                    
+                    size="30" 
+                    v-bind="attrs"
+                    v-on="on"
+                    >
+                      <v-icon  small class="mdi-light">mdi-delete</v-icon> 
+                    </v-avatar>
+                </template>
+                <v-card class>
+                  <v-card-title class="headline">COMFIRM DELETE</v-card-title>
+                  <v-card-text>Do you really want to delete this bill?</v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="#10195D" text @click="dialog = false">Cancel</v-btn>
+                    <v-btn color="#FB236A" text @click="[deleteItem(item), dialog = false]">Delete</v-btn>
+                  </v-card-actions>
+                </v-card>
+             </v-dialog>
 
         </template>
 
@@ -178,8 +209,25 @@
       },
 
       deleteItem (item) {
-        const index = this.items.indexOf(item)
-        confirm('Are you sure you want to delete this item?') && this.items.splice(index, 1)
+        //console.log(item)
+        const billId =  item.id
+
+        billService.deleteBill(this.userId, billId)
+          .then(data => {
+            if (data) {
+              this.message = data.message;
+              this.fetchData()
+              console.log('bill deleted successfully')
+            }
+          })
+          .catch(err =>{
+            this.message = err
+            console.log('bill not deleted')
+          })
+          
+
+        // const index = this.items.indexOf(item)
+        // confirm('Are you sure you want to delete this item?') && this.items.splice(index, 1)
       },
 
       close () {
@@ -201,3 +249,9 @@
     },
   }
 </script>
+
+<style lang="css" scoped>
+  .avatar {
+    margin: 10px;
+  }
+</style>

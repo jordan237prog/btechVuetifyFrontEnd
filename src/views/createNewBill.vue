@@ -195,7 +195,8 @@
                         @click="removeLine(index)"
                         x-large
                         >
-                            <v-icon dark>mdi-delete</v-icon>
+                            <!-- <v-icon dark>mdi-delete</v-icon>  -->
+                            <v-icon dark>mdi-delete-forever</v-icon> 
                         </v-avatar>
 
                         
@@ -310,7 +311,8 @@ export default {
             }
             this.bill_line_items.push({
                 bill_item_name : null,
-                quantity       : null
+                quantity       : null,
+                price          : null,
             })
         },
 
@@ -349,7 +351,7 @@ export default {
             for(let i = 0; i < this.billItems.length; i++){
                 //console.log(event)
                 if(this.billItems[i].bill_item_name === event){
-                    this.price = this.billItems[i].bill_item_price
+                    this.bill_line_items.price = this.billItems[i].bill_item_price
                 }
             }
         },
@@ -369,6 +371,7 @@ export default {
                 billService.createBill(this.bill)
                     .then(data => {
                         this.loading = false;
+                        this.$router.push('allBill')
                         return data;
                     })
                     .catch(err =>{ 

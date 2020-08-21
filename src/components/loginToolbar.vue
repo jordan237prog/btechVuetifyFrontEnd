@@ -152,7 +152,7 @@
                     >
                       Logout
                     </v-btn>
-                  </template>
+                </template>
                 <v-card>
                   <v-card-title class="headline">LOGOUT</v-card-title>
                   <v-card-text>Do you want to logout?</v-card-text>

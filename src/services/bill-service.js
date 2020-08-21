@@ -15,7 +15,10 @@ class BillService {
             .get(API_URL + '/'+userId)
     }
 
-
+    deleteBill(userId, billId) {
+        return axios
+            .delete(API_URL + '/' + userId + '/' + billId)
+    }
 
 }
 
