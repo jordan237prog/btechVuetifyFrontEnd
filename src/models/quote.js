@@ -6,9 +6,9 @@
 // }
 
 export default class Quote {
-    constructor(quoteName, userID, quote_line_items) {
-        this.quoteName = quoteName;
-        this.userID = userID;
+    constructor(quoteName, userId, quote_line_items) {
+        this.quoteName = quoteName; 
+        this.userId = userId; 
         this.quote_line_items = quote_line_items;
     }
 }

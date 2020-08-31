@@ -4,26 +4,12 @@
         <v-form v-model="isValid"> 
             <v-row>
                 <v-col>
-                    <h3>Bill by</h3>
+                    <h3>Project Quota(Devis)</h3>
                     <img class="img" height="30" src="../assets\kmerfreelance.png">
                 </v-col>
             </v-row>
 
             <v-row>
-                <!-- <v-col class=" col-4 .col-md-4">
-                    <v-text-field
-                    class="error-combobox"
-                    outlined
-                    type="number"
-                    v-model="inputGroup"
-                    :rules="verifyBillElement"
-                    name="billName"
-                    label="Entere the number of  bill items"
-                    append-icon="mdi-card-plus"
-                    required
-                    >
-                    </v-text-field>
-                </v-col> -->
                 
                 <v-col class=" col- .col-md-4">
                     
@@ -31,10 +17,10 @@
                     class="error-combobox"
                     outlined
                     type="text"
-                    v-model="bill.billName"
-                    :rules="verifyBillName"
-                    name="billName"
-                    label="Bill Name"
+                    v-model="quote.quoteName"
+                    :rules="verifyQuoteName"
+                    name="quoteName"
+                    label="Quote Name"
                     append-icon="mdi-card-plus"
                     required
                     >
@@ -53,7 +39,7 @@
             </v-card>
 
 
-            <!-- ====================================BILL TITTLE=============================== -->
+            <!-- ====================================quote TITTLE=============================== -->
 
             <v-row id = "line_item" justify="center">
                 <v-col class=" col-3 .col-md-4">
@@ -68,17 +54,6 @@
                     </h3>
                 </v-col>
 
-                <!-- <v-col class=" col-2 .col-md-4">
-                    <h3 >
-                    UNIT PRICE(CFAF)
-                    </h3>
-                </v-col> -->
-
-                <!-- <v-col class=" col-3 .col-md-4">
-                    <h3 >
-                    TOTAL
-                    </h3>
-                </v-col> -->
 
                 <v-col class=" col-2 .col-md-4">
                     <h3 >
@@ -87,42 +62,33 @@
                 </v-col>
             </v-row>
 
-            <!-- <v-row v-if="loading" class=" col-10 .col-md-4" justify="center">
-
-                <v-skeleton-loader
-                elevation = 1
-                class="mx-auto" 
-                width="4000"
-                type="card"
-            ></v-skeleton-loader>
-
-            </v-row> -->
+            
 
             <v-row v-if="error" class=" col-10 .col-md-4" justify="center">
 
             </v-row>
 
             <!-- ============================================================================== -->
-                <!-- v-if="billItemsNames"     -->
+                <!-- v-if="quoteItemsNames"     -->
                 <v-row  justify="center"
-                v-for="(bill_line_item, index) in bill_line_items" :key="index"
+                v-for="(quote_line_item, index) in quote_line_items" :key="index"
                 >
                     <v-col class=" col-5 .col-md-4">
                         <v-autocomplete
                         chips
-                        :items="billItemsNames"
-                        item-text="bill_item_name"
+                        :items="quoteItemsNames"
+                        item-text="quote_item_name"
                         outlined
-                        v-model="bill_line_item.bill_item_name"
+                        v-model="quote_line_item.quote_item_name"
                         @change="GetItemPrice"
                         :rules="verifyItemName"
                         color="white"
                         height="2" 
-                        name="bill_item_name"
+                        name="quote_item_name"
                         label="Item Name"
                         required
                         >
-                            <!-- <option v-for="(billItemsName, key) in billItemsNames" :value="billItemsName.name" :key="key">{{ billItemsName.name }}</option> -->
+                            <!-- <option v-for="(quoteItemsName, key) in quoteItemsNames" :value="quoteItemsName.name" :key="key">{{ quoteItemsName.name }}</option> -->
                         </v-autocomplete>
                     </v-col>
 
@@ -130,7 +96,7 @@
                         <v-text-field
                         class="error-combobox"
                         outlined
-                        v-model="bill_line_item.quantity"
+                        v-model="quote_line_item.quantity"
                         type="number"
                         name="quantity"
                         :rules="verifyQuantity"
@@ -141,37 +107,6 @@
                         >
                         </v-text-field>
                     </v-col>
-
-                    <!-- <v-col class=" col-2 .col-md-4">
-                        <v-text-field
-                        class="error-combobox"
-                        outlined
-                        disabled
-                        :v-model="price"
-                        :value="price"
-                        type="number"
-                        name="Unit Price"
-                        label="Unit Price"
-                        append-icon="mdi-currency-eur"
-                        required
-                        >
-                        </v-text-field> -->
-                        <!-- <h3>{{price}}</h3> -->
-                    <!-- </v-col> -->
-
-                    <!-- <v-col class=" col-3 .col-md-4">
-                        <v-text-field
-                        class="error-combobox"
-                        outlined
-                        type="text"
-                        name="Total"
-                        disabled
-                        label="Total"
-                        append-icon="mdi-calculator-variant"
-                        required
-                        >
-                        </v-text-field>
-                    </v-col> -->
 
                     <v-col class=" col-1 .col-md-4">
                     
@@ -191,7 +126,7 @@
                         
                         <v-avatar 
                         color="error"
-                        v-if="index + 1 === bill_line_items.length"
+                        v-if="index + 1 === quote_line_items.length"
                         @click="removeLine(index)"
                         x-large
                         >
@@ -212,16 +147,16 @@
 
                 </v-col>
                 <v-col class="col-4 .col-md-4">
-                    <v-btn @click="createBill"
+                    <v-btn @click="createQuote"
                     block
                     x-large
                     :loading="loading"
                     :disabled="!isValid"
                     color="#10195D"
                     class="log-btn"
-                    name="createBill"
+                    name="createQuote"
                     >
-                    create bill
+                    create quote
                     </v-btn>
                 </v-col>
             </v-row>
@@ -231,12 +166,12 @@
 </template>
 
 <script>
-import Bill from '../models/bill';
-import Bill_items_Service from '../services/bill_items-service';
- import billService from '../services/bill-service'
+import Quote from '../models/quote';
+import Quote_items_Service from '../services/quote_items-service';
+ import quoteService from '../services/quote-service'
 
 export default {
-    name : "createNewBill",
+    name : "createNewQuota",
 
     // props: {
     //     numLabels: {
@@ -254,19 +189,19 @@ export default {
             price: null,
             inputGroup: 0,
             loading: false,    //state of the page that is if loading a skeleton loader shall be displayed
-            billName : null,   //the name that shall be given to the bill
-            billItems: null,   //all the bill component are stored here, array of objects, from db
-            billItemsNames:[], // the name of each item is stored here in the form [elm name,...] constructed datastructure
+            quoteName : null,   //the name that shall be given to the quote
+            quoteItems: null,   //all the quote component are stored here, array of objects, from db
+            quoteItemsNames:[], // the name of each item is stored here in the form [elm name,...] constructed datastructure
             message: null,       //keeps track of all error message
-            bill: new Bill('','',''),   //here is the bill object
-            bill_line_items:[],          // collection of the the bill elements
-            verifyBillName: [
-                v => !!v  || 'Bill Name is required',
-                v => v && v.length >= 4 || 'Bill Name must be greater than 3 characters'
+            quote: new Quote('','',''),   //here is the quote object
+            quote_line_items:[],          // collection of the the quote elements
+            verifyQuoteName: [ 
+                v => !!v  || 'quote Name is required',
+                v => v && v.length >= 4 || 'quote Name must be greater than 3 characters'
             ],
-            verifyBillElement: [
+            verifyQuoteElement: [
                 v => !!v  || 'Number of elements required',
-                v => v && v > 0 || 'Bill must have atleast one element'
+                v => v && v > 0 || 'quote must have atleast one element'
             ],
             verifyItemName: [
                 v => !!v  || 'Please make a valid selection',
@@ -284,73 +219,73 @@ export default {
     },
 
     created () {
-        // fetch the data when the view is created and the data is (the bill Items)
+        // fetch the data when the view is created and the data is (the quote Items)
         // already being observed
         this.fetchData()
     },
     watch: {
         // call again the method if the route changes
         '$route': 'fetchData',
-        bill_line_items () {
-            this.blockRemoval = this.bill_line_items.length <= 1
+        quote_line_items () {
+            this.blockRemoval = this.quote_line_items.length <= 1
         }
     },
     methods: {
     
         useUserId(){
             if(this.getUserID){
-                this.bill.userId = this.$store.state.auth.user.id
+                this.quote.userId = this.$store.state.auth.user.id
             }
         },
         
         addLine () {
-            let checkEmptybill_line_items = this.bill_line_items.filter(bill_line_item => bill_line_item.bill_item_name === null)
-            if (checkEmptybill_line_items.length >= 1 && this.bill_line_items.length > 0) {
+            let checkEmptyquote_line_items = this.quote_line_items.filter(quote_line_item => quote_line_item.quote_item_name === null)
+            if (checkEmptyquote_line_items.length >= 1 && this.quote_line_items.length > 0) {
                 this.message = "Please fill the last line before adding a new one !"
                 return
             }
-            this.bill_line_items.push({
-                bill_item_name : null,
-                quantity       : null,
+            this.quote_line_items.push({
+                quote_item_name : null,
+                quantity       : null, 
             })
         },
 
-        removeLine (bill_line_itemId) {
+        removeLine (quote_line_itemId) {
             if (!this.blockRemoval) {
-                this.bill_line_items.splice(bill_line_itemId, 1)
+                this.quote_line_items.splice(quote_line_itemId, 1)
             }
         },
         
         fetchData () {
-            this.error = this.billItems = null
+            this.error = this.quoteItems = null
             this.loading = true
             //const fetchedId = this.$route.params.id
             // replace `getPost` with your data fetching util / API wrapper
-            Bill_items_Service.getBillItems()
+            Quote_items_Service.getQuoteItems()
                 .then( resData => { 
                     this.loading = false
-                    this.billItems = resData.data
+                    this.quoteItems = resData.data
                     for(let i = 0; i < resData.data.length; i++ ){
                         
-                        this.billItemsNames.push(resData.data[i].bill_item_name)
-                        //console.log(this.billItemsNames[i])
+                        this.quoteItemsNames.push(resData.data[i].quote_item_name)
+                        //console.log(this.quoteItemsNames[i])
                         
                     }
-                    //console.log(this.billItemsNames)
+                    //console.log(this.quoteItemsNames)
                 })
                 .catch (err => {
                     return{
-                        message: err  || 'An error ocurred while fetching the bill components please verify your internet conection and try again letter'
+                        message: err  || 'An error ocurred while fetching the quote components please verify your internet conection and try again letter'
                     }
                 });
             
         },
         GetItemPrice(event){
         
-            for(let i = 0; i < this.billItems.length; i++){
+            for(let i = 0; i < this.quoteItems.length; i++){
                 //console.log(event)
-                if(this.billItems[i].bill_item_name === event){
-                    this.bill_line_items.price = this.billItems[i].bill_item_price
+                if(this.quoteItems[i].quote_item_name === event){
+                    this.quote_line_items.price = this.quoteItems[i].quote_item_price
                 }
             }
         },
@@ -358,23 +293,24 @@ export default {
             this.$refs.form.validate()
         },
 
-        createBill(){
+        createQuote(){
             this.loading = true;
             this.$validator.validateAll().then(isValid => {
                 if (!isValid) {
                     this.loading = false;
                     return;
                 }
-                this.bill.bill_line_items = this.bill_line_items
+                this.quote.quote_line_items = this.quote_line_items
+                console.log(this.quote)
 
-                billService.createBill(this.bill)
+                quoteService.createQuote(this.quote)
                     .then(data => {
                         this.loading = false;
-                        this.$router.push('allBill')
+                        this.$router.push('allQuota')
                         return data;
                     })
                     .catch(err =>{ 
-                        return err || 'Unable to save bill please check your connection and try again'
+                        return err || 'Unable to save quote please check your connection and try again'
                     });
             
                 
@@ -393,7 +329,7 @@ export default {
     },
     // useUserId(){
     //     if(this.getUserID){
-    //         this.bill.userId = this.getUserID()
+    //         this.quote.userId = this.getUserID()
     //     }
     // },
     

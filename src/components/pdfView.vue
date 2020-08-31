@@ -15,15 +15,18 @@
         <div id="pdfToBeGenerated">
 
             <v-card-title>
-              <span class="headline">BIll Name Here</span>
+              <span class="headline">BIll Name:......</span>
             </v-card-title>
 
             <v-card-text>
               <v-row>
-                    <v-col>
-                        <h3>Bill by</h3>
-                        <img class="img" height="30" src="../assets\kmerfreelance.png">
-                    </v-col>
+                <v-col class=" col- .col-md-4">
+                        
+                </v-col>
+                <v-col class=" col-2 .col-md-4">
+                    <!-- <h3>Powered by</h3> -->
+                    <img class="img" height="30" src="../assets\kmerfreelance.png">
+                </v-col>
               </v-row>
 
                 <template>
@@ -104,6 +107,7 @@
 
 
       }
-    }
+    },
+    
   }
 </script>

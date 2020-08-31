@@ -54,6 +54,12 @@ export const router = new Router({
             component: () => import('./views/createNewBill.vue')
         },
         {
+            path: '/newQuota',
+            name: 'createNewQuota',
+            // lazy-loaded
+            component: () => import('./views/createNewQuota.vue')
+        },
+        {
             path: '/tips',
             name: 'tips',
             // lazy-loaded
@@ -75,10 +81,24 @@ export const router = new Router({
         },
         {
 
+            path: '/allQuota',
+            name: 'allQuota',
+            // lazy-loaded
+            component: () => import('./views/allQuota.vue')
+        },
+        {
+
             path: '/pdf',
             name: 'pdf',
             // lazy-loaded
             component: () => import('./views/pdf.vue')
+        }, 
+        {
+
+            path: '/editBill',
+            name: 'editBill',
+            // lazy-loaded
+            component: () => import('./views/editBill.vue')
         },
     ]
 });

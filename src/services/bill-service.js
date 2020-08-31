@@ -20,6 +20,11 @@ class BillService {
             .delete(API_URL + '/' + userId + '/' + billId)
     }
 
+    updateBill(userId, billId, newBill) {
+        axios.delete(API_URL + '/' + userId + '/' + billId)
+        axios.post(API_URL, newBill);
+    }
+
 }
 
 export default new BillService();

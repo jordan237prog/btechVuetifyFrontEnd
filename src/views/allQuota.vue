@@ -7,12 +7,12 @@
           :headers="headers"
           :items="items"
           :search="search"
-          sort-by="billName"
+          sort-by="quoteName" 
           class="elevation-1"
         >
           <template v-slot:top>
             <v-toolbar flat color="white">
-              <v-toolbar-title>LIST OF ALL BILLS</v-toolbar-title>
+              <v-toolbar-title>LIST OF ALL  QUOTAS</v-toolbar-title>
               <v-divider
                 class="mx-4"
                 inset
@@ -32,13 +32,13 @@
 
               <v-spacer></v-spacer>
 
-              <router-link to="newBill">
+              <router-link to="newQuota">
                 <v-btn
                 link
                 color="primary"
                 dark
                 class="mb-2"
-                >New Bill
+                >New Quota
                 </v-btn>
               </router-link>
                 
@@ -94,7 +94,7 @@
       
       </v-row>
 
-      <!-- ===========================EDIT BILL CODE HERE==================================== -->
+      <!-- ===========================EDIT Quote CODE HERE==================================== -->
 
         <v-dialog v-model="editDialog" persistent max-width="900px">
       
@@ -102,7 +102,7 @@
       
       <v-card>
         <v-card-title>
-          <span class="headline">Edit Bill</span>
+          <span class="headline">Edit Quote</span>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -111,7 +111,7 @@
              <v-form v-model="isValid"> 
                 <v-row>
                     <v-col>
-                        <h3>Bill by</h3>
+                        <h3>Quota by</h3>
                         <img class="img" height="30" src="../assets\kmerfreelance.png">
                     </v-col>
                 </v-row>
@@ -124,10 +124,10 @@
                         class="error-combobox"
                         outlined
                         type="text"
-                        v-model="bill.billName"
-                        :rules="verifyBillName"
-                        name="billName"
-                        label="Bill Name"
+                        v-model="quote.quoteName"
+                        :rules="verifyQuoteName"
+                        name="quoteName"
+                        label="Quote Name"
                         append-icon="mdi-card-plus"
                         required
                         small
@@ -147,7 +147,7 @@
                 </v-card>
 
 
-                <!-- ====================================BILL TITTLE=============================== -->
+                <!-- ====================================Quote TITTLE=============================== -->
 
                 <v-row id = "line_item" justify="center">
                     <v-col class=" col-3 .col-md-4">
@@ -173,21 +173,21 @@
                 </v-row>
 
                 <!-- ============================================================================== -->
-                    <!-- v-if="billItemsNames"     -->
+                    <!-- v-if="quoteItemsNames"     -->
                     <v-row  justify="center"
-                    v-for="(bill_line_item, index) in bill_line_items" :key="index"
+                    v-for="(quote_line_item, index) in quote_line_items" :key="index"
                     >
                         <v-col class=" col-5 .col-md-4">
                             <v-autocomplete
                             chips
-                            :items="billItemsNames"
-                            item-text="bill_item_name"
+                            :items="quoteItemsNames"
+                            item-text="quote_item_name"
                             outlined
-                            v-model="bill_line_item.bill_item_name"
+                            v-model="quote_line_item.quote_item_name"
                             :rules="verifyItemName"
                             color="white"
                             height="2" 
-                            name="bill_item_name"
+                            name="quote_item_name"
                             label="Item Name"
                             required
                             >
@@ -198,7 +198,7 @@
                             <v-text-field
                             class="error-combobox"
                             outlined
-                            v-model="bill_line_item.quantity"
+                            v-model="quote_line_item.quantity"
                             type="number"
                             name="quantity"
                             :rules="verifyQuantity"
@@ -226,7 +226,7 @@
                             
                             <v-avatar 
                             color="error"
-                            v-if="index + 1 === bill_line_items.length"
+                            v-if="index + 1 === quote_line_items.length"
                             @click="removeLine(index)"
                             x-large
                             >
@@ -241,14 +241,14 @@
 
                     </v-col>
                     <v-col class="col-3 .col-md-4">
-                        <!-- <router-link to="allBill"> -->
+                        <!-- <router-link to="allQuote"> -->
                             <v-btn
                             block
                             @click="cancel"
                             x-large
                             color = error
                             class="log-btn"
-                            name="createBill"
+                            name="createQuote"
                             >
                             cancel
                             </v-btn> 
@@ -256,7 +256,7 @@
                     </v-col>
                     
                     <v-col class="col-3 .col-md-4">
-                        <v-btn @click="updateBill"
+                        <v-btn @click="updateQuote"
                         block
                         x-large
                         :loading="loading"
@@ -264,9 +264,9 @@
                         color="#10195D"
                         dark
                         class="log-btn"
-                        name="createBill"
+                        name="createQuote"
                         >
-                        update bill
+                        update quote
                         </v-btn>
                     </v-col>
                 </v-row>
@@ -278,7 +278,7 @@
     </v-dialog>
 
 
-      <!-- /========================view bill code here================================================/ -->
+      <!-- /========================view quote code here================================================/ -->
         <template>
           <v-row>
             <v-dialog v-model="viewDialog" width="800px" persistent  >
@@ -289,7 +289,7 @@
                 <div id="pdfToBeGenerated">
 
                     <v-card-title>
-                      <v-row >Bill name :  <h3>{{bill_Name}}</h3 ></v-row>
+                      <v-row >Quota name :  <h3>{{quote_Name}}</h3 ></v-row>
                     </v-card-title> <v-divider></v-divider>
 
                     <v-card-text>
@@ -316,10 +316,10 @@
                               </thead>
                               <tbody>
                                 <tr v-for="(selectedToView, index) in selectedToView" :key="index">
-                                  <td>{{ selectedToView.bill_item_name }}</td>
-                                  <td>{{ selectedToView.bill_line_item.quantity }}</td>
-                                  <td>{{ selectedToView.bill_item_price }}</td>
-                                  <td><h3>{{ (Number(selectedToView.bill_item_price) * Number(selectedToView.bill_line_item.quantity)) }}</h3></td> 
+                                  <td>{{ selectedToView.quote_item_name }}</td>
+                                  <td>{{ selectedToView.quote_line_item.quantity }}</td>
+                                  <td>{{ selectedToView.quote_item_price }}</td>
+                                  <td><h3>{{ (Number(selectedToView.quote_item_price) * Number(selectedToView.quote_line_item.quantity)) }}</h3></td> 
                                 </tr>
                               </tbody>
                               
@@ -352,13 +352,13 @@
 </template>
 
 <script>
-  import billService from '../services/bill-service'
+  import quoteService from '../services/quote-service'
   import * as html2pdf from 'html2pdf.js'
-  import Bill from '../models/bill';
-  import Bill_items_Service from '../services/bill_items-service';
+  import Quote from '../models/quote';
+  import Quote_items_Service from '../services/quote_items-service';
 
   export default {
-    name: 'allBills',
+    name: 'allQuota',
     data () {
       return {
         search: '',
@@ -370,10 +370,10 @@
         singleSelect: false,
         headers: [
           {
-            text: 'Bill Name',
+            text: 'Quote Name',
             align: 'start',
             sortable: false,
-            value: 'billName',
+            value: 'quoteName',
           },
           
           { text: 'Creation on ', value: 'createdAt' },
@@ -383,30 +383,30 @@
         //   { text: 'Iron (%)', value: 'iron' },
         ],
         
-        items: [],           // here is store all the created bills
-        selectedToView: [], // here is stored the data of the bill to be viewed
-        bill_Name: "",
+        items: [],           // here is store all the created quotes
+        selectedToView: [], // here is stored the data of the quote to be viewed
+        quote_Name: "",
         totalPrice:"",
 
-        initialLength: null,  // the initial length of the bill line items before update
-        billId : null,
+        initialLength: null,  // the initial length of the quote line items before update
+        quoteId : null,
         editDialog: false,
         isValid : true,
         blockRemoval: true,
         inputGroup: 0,
-        billName : null,   //the name that shall be given to the bill
-        billItems: null,   //all the bill component are stored here, array of objects, from db
-        billItemsNames:[], // the name of each item is stored here in the form [elm name,...] constructed datastructure
+        quoteName : null,   //the name that shall be given to the quote
+        quoteItems: null,   //all the quote component are stored here, array of objects, from db
+        quoteItemsNames:[], // the name of each item is stored here in the form [elm name,...] constructed datastructure
           
-        bill: new Bill('','',''),   //here is the bill object
-        bill_line_items:[],          // collection of the the bill elements
-        verifyBillName: [
-            v => !!v  || 'Bill Name is required',
-            v => v && v.length >= 4 || 'Bill Name must be greater than 3 characters'
+        quote: new Quote('','',''),   //here is the quote object
+        quote_line_items:[],          // collection of the the quote elements
+        verifyQuoteName: [
+            v => !!v  || 'Quote Name is required',
+            v => v && v.length >= 4 || 'Quote Name must be greater than 3 characters'
         ],
-        verifyBillElement: [
+        verifyQuoteElement: [
             v => !!v  || 'Number of elements required',
-            v => v && v > 0 || 'Bill must have atleast one element'
+            v => v && v > 0 || 'quote must have atleast one element'
         ],
         verifyItemName: [
             v => !!v  || 'Please make a valid selection',
@@ -418,13 +418,13 @@
     },
     mounted () {
         this.useUserId()
-        this.fetchBills()
-        this.fetchBill_item() 
+        this.fetchQuotes()
+        this.fetchQuote_item() 
     },
 
     created () {
-        this.fetchBills()
-        this.fetchBill_item()
+        this.fetchQuotes()
+        this.fetchQuote_item()
         this.useUserId()
     },
     computed: {
@@ -438,8 +438,8 @@
     watch: {
         
         '$route': 'fetchData',
-        bill_line_items () {
-          this.blockRemoval = this.bill_line_items.length <= 1
+        quote_line_items () {
+          this.blockRemoval = this.quote_line_items.length <= 1
         }
        
        
@@ -449,7 +449,7 @@
 
       cancel(){
              this.editDialog = false
-             this.bill_line_items = []
+             this.quote_line_items = []
             // location.reload()
               
         },
@@ -462,20 +462,20 @@
         },
 
         addLine () {
-            let checkEmptybill_line_items = this.bill_line_items.filter(bill_line_item => bill_line_item.bill_item_name === null)
-            if (checkEmptybill_line_items.length >= 1 && this.bill_line_items.length > 0) {
+            let checkEmptyquote_line_items = this.quote_line_items.filter(quote_line_item => quote_line_item.quote_item_name === null)
+            if (checkEmptyquote_line_items.length >= 1 && this.quote_line_items.length > 0) {
                 this.message = "Please fill the last line before adding a new one !"
                 return
             }
-            this.bill_line_items.push({
-                bill_item_name : null,
+            this.quote_line_items.push({
+                quote_item_name : null,
                 quantity       : null,
             })
         },
 
-        removeLine (bill_line_itemId) {
+        removeLine (quote_line_itemId) {
             if (!this.blockRemoval) {
-                this.bill_line_items.splice(bill_line_itemId, 1)
+                this.quote_line_items.splice(quote_line_itemId, 1)
             }
         },
 
@@ -483,37 +483,37 @@
             this.$refs.form.validate()
         },
 
-        updateBill(){
+        updateQuote(){
             this.loading = true;
             this.$validator.validateAll().then(isValid => {
                 if (!isValid) {
                     this.loading = false;
                     return;
                 }
-                const newBill= {
-                  billName : this.bill.billName,
+                const newQuote= {
+                  quoteName : this.quote.quoteName,
                   userId: this.userId,
-                  bill_line_items : this.bill_line_items
+                  quote_line_items : this.quote_line_items
                 }
-                console.log(newBill)
-                billService.deleteBill(this.userId, this.billId)
+                console.log(newQuote)
+                quoteService.deleteQuote(this.userId, this.quoteId)
                     .then(() => {
                         this.loading = false;
-                        // this.$router.push('allBill')
+                        // this.$router.push('allQuote')
                         location.reload();
                     })
                     .catch(err =>{ 
-                        return err || 'Unable to save bill please check your connection and try again'
+                        return err || 'Unable to save quote please check your connection and try again'
                     });
             
-                billService.createBill( newBill)
+                quoteService.createQuote( newQuote)
                     .then((data) => {
                         this.loading = false;
-                        // this.$router.push('allBill')
+                        // this.$router.push('allQuote')
                         return data
                     })
                     .catch(err =>{ 
-                        return err || 'Unable to save bill please check your connection and try again'
+                        return err || 'Unable to save quote please check your connection and try again'
                     });
                 this.editDialog = false
                 location.reload();location.reload();
@@ -521,13 +521,13 @@
             });
         },
 
-         fetchBills () {
+         fetchQuotes () {
             this.message = null
             this.loading = true
             //console.log(this.userId)
             //const fetchedId = this.$route.params.id
             // replace `getPost` with your data fetching util / API wrapper
-            billService.getAllBills(this.userId)
+            quoteService.getAllQuotes(this.userId)
                 .then( resData => { 
                     this.loading = false
                     this.items = resData.data
@@ -536,32 +536,32 @@
                 })
                 .catch (err => {
                     return{
-                        message: err  || 'An error ocurred while fetching the bill components please verify your internet conection and try again letter'
+                        message: err  || 'An error ocurred while fetching the quote components please verify your internet conection and try again letter'
                     }
                 });
             
         },
 
-        fetchBill_item () {
+        fetchQuote_item () {
             this.message = null
             this.loading = true
             //console.log(this.userId)
             //const fetchedId = this.$route.params.id
             // replace `getPost` with your data fetching util / API wrapper
-            Bill_items_Service.getBillItems()
+            Quote_items_Service.getQuoteItems()
                 .then( resData => { 
                     this.loading = false
-                    this.billItems = resData.data
+                    this.quoteItems = resData.data
                     for(let i = 0; i < resData.data.length; i++ ){
                         
-                        this.billItemsNames.push(resData.data[i].bill_item_name)
-                        //console.log(this.billItemsNames[i])
+                        this.quoteItemsNames.push(resData.data[i].quote_item_name)
+                        //console.log(this.quoteItemsNames[i])
                         
                     }
                 })
                 .catch (err => {
                     return{
-                        message: err  || 'An error ocurred while fetching the bill components please verify your internet conection and try again letter'
+                        message: err  || 'An error ocurred while fetching the quote components please verify your internet conection and try again letter'
                     }
                 });
             
@@ -570,31 +570,31 @@
         //====================================================
       editItem (item) { 
         //console.log(item)
-        this.bill.billName= item.billName 
-        this.billId = item.id  
-        const elmt = item.bill_items
+        this.quote.quoteName= item.quoteName 
+        this.quoteId = item.id  
+        const elmt = item.quote_items
         
          for(let i = 0; i < elmt.length; i++){
            
-           this.bill_line_items.push({
-             quantity : item.bill_items[i].bill_line_item.quantity,
-             bill_item_name : item.bill_items[i].bill_item_name
+           this.quote_line_items.push({
+             quantity : item.quote_items[i].quote_line_item.quantity,
+             quote_item_name : item.quote_items[i].quote_item_name
            })   
            
          }
-         console.log(this.bill_line_items)
+         console.log(this.quote_line_items)
         
       },
 
       view(item){
-        //console.log(item.bill_items) 
-        this.bill_Name = item.billName 
-        this.selectedToView = item.bill_items 
+        //console.log(item.quote_items) 
+        this.quote_Name = item.quoteName 
+        this.selectedToView = item.quote_items 
          
-          if(item.bill_items){
+          if(item.quote_items){
             var totalPrice = 0
-            for (let i = 0; i < item.bill_items.length; ++i){
-                totalPrice = (item.bill_items[i].bill_item_price * item.bill_items[i].bill_line_item.quantity ) + totalPrice
+            for (let i = 0; i < item.quote_items.length; ++i){
+                totalPrice = (item.quote_items[i].quote_item_price * item.quote_items[i].quote_line_item.quantity ) + totalPrice
             } 
             console.log(totalPrice)
             this.totalPrice = totalPrice
@@ -605,7 +605,7 @@
       downloadpdf(){
 
         const options = {
-          filename : this.bill_Name,
+          filename : this.quote_Name,
           image: { type: 'jpeg' }, 
           html2canvas: {},
           jsPDF: {orientation : 'landscape'},
@@ -624,21 +624,21 @@
       deleteItem (item) {
         //console.log(item)
        
-            if(confirm("ARE YOU SURE, YOU WANT TO DELETE "+ item.billName +"?") === true){
-              const billId =  item.id
+            if(confirm("ARE YOU SURE, YOU WANT TO DELETE "+ item.quoteName +"?") === true){
+              const quoteId =  item.id
 
-              billService.deleteBill(this.userId, billId)
+              quoteService.deleteQuote(this.userId, quoteId)
                 .then(data => {
                   if (data) {
                     this.message = data.message;
                     
-                    this.fetchBills() 
-                    console.log('bill deleted successfully')
+                    this.fetchQuotes() 
+                    console.log('quote deleted successfully')
                   }
                 })
                 .catch(err =>{
                   this.message = err
-                  console.log('bill not deleted')
+                  console.log('quote not deleted')
                 })
             }
       
