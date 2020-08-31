@@ -19,8 +19,14 @@
                     <v-card
                     class="mb-12"
                     color="grey lighten-1"
-                    height="350px"
-                    ></v-card>
+                    height="600px"
+                    >
+                    
+                    <v-img
+                    src="../assets/enterprise dashboard.png"
+                    height="600px"
+                    ></v-img>
+                    </v-card>
 
                     <v-btn
                     color="primary"

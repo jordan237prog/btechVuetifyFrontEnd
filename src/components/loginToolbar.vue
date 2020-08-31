@@ -203,7 +203,7 @@ export default {
         items: [
           { title: 'Bills', icon: 'mdi-card-text', route: '/allBill'},
           { title: 'New Bill', icon: 'mdi-card-plus', route: '/newBill'},
-          { title: 'List of All Bills', icon: 'mdi-badge-account-horizontal', route:'/billList'},
+          // { title: 'List of All Bills', icon: 'mdi-badge-account-horizontal', route:'/billList'},
           { title: 'Tips', icon: 'mdi-arrow-right-drop-circle', route: '/tips' },
           { title: 'About', icon: 'mdi-help-box', route: '/about' },
         ],
